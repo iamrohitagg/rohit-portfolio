@@ -82,7 +82,8 @@ const Header = () => {
           </ul>
           <ModeToggle />
           <a
-            href="/Rohit-Aggarwal-Resume.pdf"
+            // href="/Rohit-Aggarwal-Resume.pdf"
+            href="https://drive.google.com/file/d/1vpjTlWNrHU_HxMFfGA45_XTAukXP_7kD/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
           >
