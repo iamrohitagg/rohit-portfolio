@@ -1,42 +1,33 @@
-"use client";
-
-import { useEffect } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
+import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import RevealObserver from "@/components/RevealObserver";
 
 export default function Home() {
-  // Add smooth scrolling behavior
-  useEffect(() => {
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener("click", function (e) {
-        e.preventDefault();
-        const targetId = anchor.getAttribute("href");
-        if (targetId) {
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({
-              behavior: "smooth",
-            });
-          }
-        }
-      });
-    });
-  }, []);
-
   return (
-    <main className="min-h-screen bg-background antialiased p-8">
+    <>
+      <a
+        href="#main"
+        className="label sr-only z-[60] bg-foreground px-4 py-3 text-background focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+      >
+        Skip to content
+      </a>
       <Header />
-      <Hero />
-      <About />
-      <Experience />
-      <Projects />
-      <Contact />
+      <main id="main">
+        <Hero />
+        <About />
+        <Experience />
+        <Skills />
+        <Projects />
+        <Contact />
+      </main>
       <Footer />
-    </main>
+      <RevealObserver />
+    </>
   );
 }

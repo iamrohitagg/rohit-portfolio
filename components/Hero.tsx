@@ -1,61 +1,100 @@
-import { Button } from "@/components/ui/button";
-import { Github, Linkedin, ArrowRight } from "lucide-react";
+import HeroGrid from "@/components/HeroGrid";
+import LocalTime from "@/components/LocalTime";
+import { experiences, profile, projects, yearsSince } from "@/lib/content";
+
+const d = (ms: number) => ({ ["--d" as string]: `${ms}ms` });
 
 const Hero = () => {
+  const years = yearsSince(profile.careerStart);
+  const company = experiences[0].company.replace(" Pvt. Ltd.", "");
+  const gaatha = projects.find((p) => p.slug === "gaatha");
+
+  const stats = [
+    { value: `${years}+`, label: "Years shipping production software" },
+    { value: `${projects.length * 10}K+`, label: "Installs across featured apps" },
+    { value: gaatha?.results[1]?.value ?? "4.3", label: "Gaatha rating on Google Play", star: true },
+  ];
+
   return (
     <section
       id="hero"
-      className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden"
+      aria-labelledby="hero-title"
+      className="relative isolate overflow-hidden pb-20 pt-28 md:pb-28 md:pt-40"
     >
-      <div className="container relative z-10">
-        <div className="max-w-3xl mx-auto md:mx-0">
-          <h1 className="animate-in text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            Hi, I'm <span className="text-primary">Rohit Aggarwal</span> <br />
-            Software Engineer
-          </h1>
-          <p className="animate-in animation-delay-200 text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl">
-            I build exceptional and accessible digital experiences for the
-            mobile and web applicatons focused on creating intuitive and
-            efficient software solutions.
+      <HeroGrid />
+
+      <div className="container">
+        {/* Meta row */}
+        <div
+          className="rise flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-sm text-muted-foreground"
+          style={d(0)}
+        >
+          <p className="flex items-center gap-2.5">
+            <span className="relative flex h-2 w-2" aria-hidden>
+              <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 motion-safe:animate-[pulse-dot_2.4s_ease-in-out_infinite]" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+            </span>
+            {profile.status}
           </p>
+          <p className="tabular-nums">
+            {profile.location} · <LocalTime timeZone={profile.timezone} suffix="IST" />
+          </p>
+        </div>
 
-          <div className="animate-in animation-delay-300 flex flex-wrap gap-4">
-            <Button asChild size="lg">
-              <a href="#contact">
-                Get in touch <ArrowRight className="ml-2 h-4 w-4" />
+        {/* Statement */}
+        <h1
+          id="hero-title"
+          className="rise mt-12 max-w-[11.6em] text-display font-medium md:mt-16"
+          style={d(80)}
+        >
+          Mobile &amp; web products, engineered from{" "}
+          <span className="em text-primary">first commit</span> to the{" "}
+          <span className="em">app store</span>.
+        </h1>
+
+        {/* Intro + proof */}
+        <div className="mt-14 grid gap-12 border-t pt-10 md:mt-20 md:grid-cols-12 md:gap-6">
+          <div className="rise md:col-span-6 lg:col-span-5" style={d(200)}>
+            <p className="text-lead text-muted-foreground">
+              I&apos;m <span className="text-foreground">{profile.name}</span>, a{" "}
+              {profile.role.toLowerCase()} with {years}+ years in React Native, React, Next.js and
+              TypeScript, currently leading mobile development at {company}.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a href="#projects" className="btn-primary group">
+                View selected work
+                <span className="nudge nudge-x" aria-hidden>
+                  →
+                </span>
               </a>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <a href="#projects">View my work</a>
-            </Button>
+              <a href="#contact" className="btn-secondary">
+                Get in touch
+              </a>
+            </div>
           </div>
 
-          <div className="animate-in animation-delay-500 flex items-center gap-4 mt-8">
-            <a
-              href="https://github.com/iamrohitagg"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Github className="h-6 w-6" />
-              <span className="sr-only">GitHub</span>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/rohit-aggarwalm"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Linkedin className="h-6 w-6" />
-              <span className="sr-only">LinkedIn</span>
-            </a>
-          </div>
+          <dl className="rise grid grid-cols-3 self-start md:col-span-6 md:col-start-7" style={d(280)}>
+            {stats.map((s, i) => (
+              <div
+                key={s.label}
+                className={`flex flex-col gap-4 pr-3 ${i > 0 ? "border-l pl-4 sm:pl-6" : ""}`}
+              >
+                <dt className="order-2 max-w-[16ch] text-[0.8125rem] leading-snug text-muted-foreground sm:text-sm">
+                  {s.label}
+                </dt>
+                <dd className="order-1 font-serif text-stat italic">
+                  {s.value}
+                  {s.star && (
+                    <span className="ml-1 align-[0.6em] font-sans text-[0.32em] not-italic text-primary">
+                      ★<span className="sr-only"> out of 5</span>
+                    </span>
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </div>
-
-      {/* Background decoration */}
-      <div className="absolute top-1/2 right-0 -translate-y-1/2 w-1/2 h-1/2 bg-primary/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-1/4 w-1/2 h-1/2 bg-primary/5 rounded-full blur-3xl"></div>
     </section>
   );
 };
